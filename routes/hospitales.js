@@ -6,7 +6,7 @@ const { Router, response } = require("express");
 const { check } = require("express-validator");
 
 const { validarCampos } = require("../middlewares/validar-campos");
-const { validarJWT } = require("../middlewares/validar-jwt");
+const { validarJWT, validarADMIN_ROLE } = require("../middlewares/validar-jwt");
 
 const {
     getHospitales,
@@ -29,10 +29,12 @@ router.post(
 
 router.put("/:id", [
     validarJWT,
+    validarADMIN_ROLE,
     check("nombre", "El nombre del hospital es necesario").not().isEmpty(),
 ], actualizarHospital);
 router.delete("/:id",
     validarJWT,
+    validarADMIN_ROLE,
     borrarHospital);
 
 module.exports = router;
